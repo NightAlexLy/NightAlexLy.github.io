@@ -1,0 +1,336 @@
+<!DOCTYPE html><html class="theme-next pisces" lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css"><link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css"><link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css"><link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4"><link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222"><meta name="keywords" content="hexo,"><meta name="description" content="前提　　最近准备搭建一个博客平台，也看了很多开源的博客框架。比如Solo、wordpress等框架、自已曾经也在cnblog发布过几篇文章、东写写西写写、杂乱无章的。后续可以写一个自动同步各平台的程序~~~  Solo 是基于Java语言开发的，容器部署有tomcat、或者自带的Jetty等方式 wordpress是基于PHP语言开发的 Hexo是基于nodejs语言开发的 cnblog应该是."><meta name="keywords" content="hexo"><meta property="og:type" content="article"><meta property="og:title" content="Hexo 搭建"><meta property="og:url" content="http://118.25.106.223/2017/06/13/hexo搭建/index.html"><meta property="og:site_name" content="run time"><meta property="og:description" content="前提　　最近准备搭建一个博客平台，也看了很多开源的博客框架。比如Solo、wordpress等框架、自已曾经也在cnblog发布过几篇文章、东写写西写写、杂乱无章的。后续可以写一个自动同步各平台的程序~~~  Solo 是基于Java语言开发的，容器部署有tomcat、或者自带的Jetty等方式 wordpress是基于PHP语言开发的 Hexo是基于nodejs语言开发的 cnblog应该是."><meta property="og:locale" content="zh-Hans"><meta property="og:updated_time" content="2018-05-10T13:31:21.517Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Hexo 搭建"><meta name="twitter:description" content="前提　　最近准备搭建一个博客平台，也看了很多开源的博客框架。比如Solo、wordpress等框架、自已曾经也在cnblog发布过几篇文章、东写写西写写、杂乱无章的。后续可以写一个自动同步各平台的程序~~~  Solo 是基于Java语言开发的，容器部署有tomcat、或者自带的Jetty等方式 wordpress是基于PHP语言开发的 Hexo是基于nodejs语言开发的 cnblog应该是."><script type="text/javascript" id="hexo.configurations">var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };</script><link rel="canonical" href="http://118.25.106.223/2017/06/13/hexo搭建/"><script type="text/javascript" src="https://infos.rtime.xin/high-animation.js"></script><link href="https://infos.rtime.xin/ma5gallery.mini3.css" rel="stylesheet" type="text/css"><title>Hexo 搭建 | run time</title></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">run time</span> <span class="logo-line-after"><i></i></span></a></div><p class="site-subtitle">stay hungry stay foolish</p></div><div class="site-nav-toggle"><button><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tag"></i><br>标签</a></li><li class="menu-item menu-item-photos"><a href="/photos/" rel="section"><i class="menu-item-icon fa fa-fw fa-book"></i><br>相册</a></li><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="menu-item-icon fa fa-fw fa-commenting"></i><br>留言</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br>关于</a></li><li class="menu-item menu-item-search"><a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i><br>搜索</a></li></ul><div class="site-search"><div class="popup search-popup local-search-popup"><div class="local-search-header clearfix"><span class="search-icon"><i class="fa fa-search"></i> </span><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span><div class="local-search-input-wrapper"><input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input"></div></div><div id="local-search-result"></div></div></div></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://118.25.106.223/2017/06/13/hexo搭建/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="Luis Yang"><meta itemprop="description" content=""><meta itemprop="image" content="/images/avatar.jpg"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="run time"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Hexo 搭建</h1><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T23:33:12+08:00">2017-06-13 </time></span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a></span></span></div></header><div class="post-body" itemprop="articleBody"><script src="/assets/js/APlayer.min.js"></script><h4 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h4><p>　　最近准备搭建一个博客平台，也看了很多开源的博客框架。比如<a href="https://github.com/b3log/solo" target="_blank" rel="noopener">Solo</a>、<a href="https://wordpress.org/" target="_blank" rel="noopener">wordpress</a>等框架、自已曾经也在<a href="http://www.cnblogs.com/LuisYang/" target="_blank" rel="noopener">cnblog</a>发布过几篇文章、东写写西写写、杂乱无章的。后续可以写一个自动同步各平台的程序~~~</p><ul><li>Solo 是基于Java语言开发的，容器部署有tomcat、或者自带的Jetty等方式</li><li>wordpress是基于PHP语言开发的</li><li>Hexo是基于nodejs语言开发的</li><li>cnblog应该是.net开发的、没研究过.推测、哈哈</li></ul><h4 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h4><p>　　Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a href="http://daringfireball.net/projects/markdown/" target="_blank" rel="noopener">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p><p>　　文档：<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">Docs</a><br>　　主题：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">Themes</a><br>　　插件：<a href="https://hexo.io/plugins/" target="_blank" rel="noopener">Plugins</a></p><h4 id="构建NodeJS环境"><a href="#构建NodeJS环境" class="headerlink" title="构建NodeJS环境"></a>构建NodeJS环境</h4><p>　　本过程的安装环境：<br></p><figure class="highlight llvm"><table><tr><td class="code"><pre><span class="line">[root<span class="title">@luisyang</span> tmp]# uname -a</span><br><span class="line">Linux luisyang <span class="number">3.10</span>.<span class="number">0</span><span class="number">-327.36</span>.<span class="number">3</span>.el<span class="number">7</span>.<span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span> <span class="symbol">#1</span> SMP Mon Oct <span class="number">24</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">20</span> UTC <span class="number">2016</span> <span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span> <span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span> <span class="keyword">x</span><span class="number">86</span>_<span class="number">64</span> GNU/Linux</span><br></pre></td></tr></table></figure><p></p><p>　　下载<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">NodeJS</a>，我选择的是<code>Source Code</code>的版本。采用编译安装的方式。<br>　　<br>　　Linux下可以通过wget命令直接下载、不需要下载到本地，在上传到远程服务器。</p><figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">yum install -y gcc gcc-c++ make</span><br><span class="line">cd /opt</span><br><span class="line">wget https://nodejs.org/dist/v6.<span class="number">11.0</span>/<span class="keyword">node</span><span class="title">-v6</span>.<span class="number">11.0</span>.tar.gz</span><br></pre></td></tr></table></figure><p>　　解压安装：</p><figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">tar xvf <span class="keyword">node</span><span class="title">-v6</span>.<span class="number">11.0</span>.tar.gz</span><br><span class="line">cd <span class="keyword">node</span><span class="title">-v6</span>.<span class="number">11.0</span></span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line">cp /usr/local/bin/<span class="keyword">node</span> <span class="title">/usr</span>/sbin/</span><br><span class="line"></span><br><span class="line">查看当前安装的<span class="keyword">Node</span><span class="title">版本</span></span><br><span class="line"><span class="title">node</span> -v</span><br><span class="line"></span><br><span class="line">查看当前安装npm版本    ---类似于Linux下面的yum</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure><h4 id="构建Git环境"><a href="#构建Git环境" class="headerlink" title="构建Git环境"></a>构建Git环境</h4><p>　　<code>Github</code>提供通过<a href="https://github.com/blog/272-github-pages" target="_blank" rel="noopener">Github Pages</a>搭建个人主页。 <code>Hexo</code>的<code>deploy</code>命令可以将生成文章的静态文件部署到远程Github服务器。也可以通过<code>GitHub</code>动态管理维护自已的文章。<br>　　<br>　　基于这些前提、决定先在自已的Linux服务器<code>[CentOS 7]</code>中构建Git环境。<br>　　<br></p><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">//先安装git依赖的包 </span><br><span class="line">yum <span class="keyword">install</span> zlib-devel </span><br><span class="line">yum <span class="keyword">install</span> openssl-devel </span><br><span class="line">yum <span class="keyword">install</span> perl </span><br><span class="line">yum <span class="keyword">install</span> cpio </span><br><span class="line">yum <span class="keyword">install</span> expat-devel </span><br><span class="line">yum <span class="keyword">install</span> gettext-devel </span><br><span class="line"></span><br><span class="line">//安装autoconf </span><br><span class="line">yum <span class="keyword">install</span> autoconf </span><br><span class="line"></span><br><span class="line">//安装git </span><br><span class="line">wget <span class="keyword">http</span>://www.codemonkey.org.uk/projects/git-snapshots/git/git-latest.tar.xz </span><br><span class="line">xz -d git-latest.tar.xz</span><br><span class="line">tar xvf git-latest.tar </span><br><span class="line">cd git-&#123;<span class="built_in">date</span>&#125; </span><br><span class="line">autoconf </span><br><span class="line">./configure <span class="comment">--with-curl=/usr/local </span></span><br><span class="line">make </span><br><span class="line">make <span class="keyword">install</span></span><br></pre></td></tr></table></figure><p></p><p>　　安装<code>Git</code>的步骤大同小异，下载包、安装、配置、配合命令使用既可<br>　　<br>　　<a href="https://git-scm.com/book/zh/v1/%E8%B5%B7%E6%AD%A5-%E5%AE%89%E8%A3%85-Git" target="_blank" rel="noopener">起步 - 安装 Git</a><br>　　<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000" target="_blank" rel="noopener">安装Git</a> 　　</p><h4 id="搭建Hexo服务器"><a href="#搭建Hexo服务器" class="headerlink" title="搭建Hexo服务器"></a>搭建Hexo服务器</h4><figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="symbol">cd</span> /<span class="meta">opt</span>    </span><br><span class="line"><span class="symbol">npm</span> install hexo-cli -g</span><br><span class="line"><span class="symbol">hexo</span> init <span class="keyword">blog</span></span><br><span class="line"><span class="keyword">cd </span><span class="keyword">blog</span></span><br><span class="line"><span class="keyword">npm </span>install</span><br><span class="line"><span class="symbol">hexo</span> server</span><br></pre></td></tr></table></figure><p>　　<code>hexo命令</code>：</p><figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="attribute">Usage</span>: hexo &lt;command&gt;</span><br><span class="line"></span><br><span class="line"><span class="attribute">Commands:</span></span><br><span class="line">  help     Get help on a command.</span><br><span class="line">  init     Create a new Hexo folder.</span><br><span class="line">  version  Display version information.</span><br><span class="line"></span><br><span class="line">Global Options:</span><br><span class="line">  --config  Specify config file instead of using _config.yml</span><br><span class="line">  --cwd     Specify the CWD</span><br><span class="line">  --debug   Display all verbose messages in the terminal</span><br><span class="line">  --draft   Display draft posts</span><br><span class="line">  --safe    Disable all plugins and scripts</span><br><span class="line">  --silent  Hide output on console</span><br><span class="line"></span><br><span class="line">For more help, you can use 'hexo help [command]' for the detailed information</span><br><span class="line">or you can check the docs: http://hexo.io/docs/</span><br></pre></td></tr></table></figure><p>　　一般我都是采用后台的方式启动Hexo Server<br></p><figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">nohup hexo<span class="built_in"> server </span>-p 80 &gt;/dev/<span class="literal">null</span> 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure><p></p><p>　　Kill后台进程：<br></p><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef | <span class="keyword">grep</span> hexo   <span class="comment">#获得Hexo的后台进程</span></span><br><span class="line"><span class="keyword">kill</span> -<span class="number">9</span> pid   <span class="comment">#杀死进程</span></span><br></pre></td></tr></table></figure><p></p><h4 id="下载Hexo主题"><a href="#下载Hexo主题" class="headerlink" title="下载Hexo主题"></a>下载Hexo主题</h4><p>　　Hexo的主题默认存放在<code>blog根目录下的themes目录[/opt/blog/themes]</code>下。默认主题：<code>landscape</code></p><p>　　本博客采用开源的<a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">next</a>主题。外观炫酷吊炸天，简洁明了，博主对常见的配置问题都做了很清晰的讲解。构建起来也比较简单</p><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">下载主题</span><br><span class="line"><span class="keyword">cd</span> /<span class="keyword">opt</span>/blog</span><br><span class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/iissnan/hexo-theme-<span class="keyword">next</span> themes/<span class="keyword">next</span></span><br><span class="line"></span><br><span class="line">启动主题</span><br><span class="line"><span class="keyword">vi</span> /<span class="keyword">opt</span>/blog/_config.yml</span><br><span class="line">找到thems属性,修改为<span class="keyword">next</span>.重启即可。 </span><br><span class="line"></span><br><span class="line">启动服务</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure><p>　　<br>　　一个简单的<code>Hexo博客</code>就搭建好了。【本文中的<code>Git环境</code>是为另外一篇文章构建基础~~~~】 　　</p></div><div><div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;"><div>坚持原创技术分享，您的支持将鼓励我继续创作！</div><button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}"><span>打赏</span></button><div id="QR" style="display: none;"><div id="wechat" style="display: inline-block"><img id="wechat_qr" src="/images/wechatpay.jpg" alt="Luis Yang 微信支付"><p>微信支付</p></div><div id="alipay" style="display: inline-block"><img id="alipay_qr" src="/images/alipay.jpg" alt="Luis Yang 支付宝"><p>支付宝</p></div></div></div></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong> Luis Yang</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://118.25.106.223/2017/06/13/hexo搭建/" title="Hexo 搭建">http://118.25.106.223/2017/06/13/hexo搭建/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"><a href="/tags/hexo/" rel="tag"># hexo</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/2017/06/13/名言警句/" rel="next" title="名言警句"><i class="fa fa-chevron-left"></i> 名言警句</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"><a href="/2017/06/13/待处理/" rel="prev" title="待处理">待处理 <i class="fa fa-chevron-right"></i></a></div></div></footer></div></article><div class="post-spread"></div></div></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Luis Yang"><p class="site-author-name" itemprop="name">Luis Yang</p><p class="site-description motion-element" itemprop="description">stay hungry stay foolish</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">35</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/index.html"><span class="site-state-item-count">14</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/index.html"><span class="site-state-item-count">25</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/nightalexly" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="https://www.zhihu.com/people/luis-59-9/activities" target="_blank" title="ZhiHu"><i class="fa fa-fw fa-question-circle-o"></i>ZhiHu</a> </span><span class="links-of-author-item"><a href="http://music.163.com/#/user/home?id=262759259" target="_blank" title="WangYi"><i class="fa fa-fw fa-pinterest-square"></i>WangYi</a> </span><span class="links-of-author-item"><a title="小high一下~" style="underline: none;color:red" rel="alternate" class="mw-harlem_shake_slow wobble shake" href="javascript:shake()"><i class="fa fa-music"></i> &nbsp;&nbsp;High</a></span></div><div class="links-of-blogroll motion-element links-of-blogroll-inline"><div class="links-of-blogroll-title"><i class="fa fa-fw fa-link"></i> Links</div><ul class="links-of-blogroll-list"><li class="links-of-blogroll-item"><a href="https://notes.rtime.xin/2017/06/14/Site%20diary/" title="Site diary" target="_blank">Site diary</a></li><li class="links-of-blogroll-item"><a href="https://notes.rtime.xin/2017/06/13/%E5%BE%85%E5%A4%84%E7%90%86/" title="Handling" target="_blank">Handling</a></li><li class="links-of-blogroll-item"><a href="https://notes.rtime.xin/lables/" title="Lables" target="_blank">Lables</a></li><li class="links-of-blogroll-item"><a href="https://notes.rtime.xin/2017/01/01/%E9%AA%91%E8%A1%8C%E4%B9%8B%E6%97%85/" title="Cycling" target="_blank">Cycling</a></li><li class="links-of-blogroll-item"><a href="https://notes.rtime.xin/2017/06/13/%E5%90%8D%E8%A8%80%E8%AD%A6%E5%8F%A5/" title="Motto" target="_blank">Motto</a></li></ul></div></div></section><!--noindex--><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前提"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hexo"><span class="nav-number">2.</span> <span class="nav-text">Hexo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构建NodeJS环境"><span class="nav-number">3.</span> <span class="nav-text">构建NodeJS环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构建Git环境"><span class="nav-number">4.</span> <span class="nav-text">构建Git环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#搭建Hexo服务器"><span class="nav-number">5.</span> <span class="nav-text">搭建Hexo服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下载Hexo主题"><span class="nav-number">6.</span> <span class="nav-text">下载Hexo主题</span></a></li></ol></div></div></section><!--/noindex--></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2018</span> <span class="with-love"><i class="fa fa-user"></i> </span><span class="author" itemprop="copyrightHolder">Luis Yang</span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span></div></div><script type="text/javascript">if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }</script><script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/ma5gallery.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/html5.js?v=5.1.4"></script><script type="text/javascript">$(document).ready(function(){$(".gallery-item").ma5gallery({preload:true,fullscreen:false})});</script><script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><script type="text/javascript">// Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });</script></body></html>

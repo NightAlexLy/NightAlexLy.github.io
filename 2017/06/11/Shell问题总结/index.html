@@ -1,0 +1,336 @@
+<!DOCTYPE html><html class="theme-next pisces" lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css"><link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css"><link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css"><link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4"><link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222"><meta name="keywords" content="shell,linux,"><meta name="description" content="反思　　由于自已从事java后端开发这块的工作，有时候会登录到远程Linux服务器查看日志，分析错误，统计数据等场景，会键入大量的命令。突发奇想，可以通过编写脚本（Shell）来实现工作简化。提到Linux Shell，自已曾经也系统化学习过，买过关于Shell编程的书籍。但是当自已要开始编写脚本的时候，才发现一些基础的知识都可能遗忘掉，比如声明变量、基础语法（if-else，for）、方法定义"><meta name="keywords" content="shell,linux"><meta property="og:type" content="article"><meta property="og:title" content="shell 问题总结"><meta property="og:url" content="http://118.25.106.223/2017/06/11/Shell问题总结/index.html"><meta property="og:site_name" content="run time"><meta property="og:description" content="反思　　由于自已从事java后端开发这块的工作，有时候会登录到远程Linux服务器查看日志，分析错误，统计数据等场景，会键入大量的命令。突发奇想，可以通过编写脚本（Shell）来实现工作简化。提到Linux Shell，自已曾经也系统化学习过，买过关于Shell编程的书籍。但是当自已要开始编写脚本的时候，才发现一些基础的知识都可能遗忘掉，比如声明变量、基础语法（if-else，for）、方法定义"><meta property="og:locale" content="zh-Hans"><meta property="og:updated_time" content="2018-05-10T13:31:21.516Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="shell 问题总结"><meta name="twitter:description" content="反思　　由于自已从事java后端开发这块的工作，有时候会登录到远程Linux服务器查看日志，分析错误，统计数据等场景，会键入大量的命令。突发奇想，可以通过编写脚本（Shell）来实现工作简化。提到Linux Shell，自已曾经也系统化学习过，买过关于Shell编程的书籍。但是当自已要开始编写脚本的时候，才发现一些基础的知识都可能遗忘掉，比如声明变量、基础语法（if-else，for）、方法定义"><script type="text/javascript" id="hexo.configurations">var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };</script><link rel="canonical" href="http://118.25.106.223/2017/06/11/Shell问题总结/"><script type="text/javascript" src="https://infos.rtime.xin/high-animation.js"></script><link href="https://infos.rtime.xin/ma5gallery.mini3.css" rel="stylesheet" type="text/css"><title>shell 问题总结 | run time</title></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">run time</span> <span class="logo-line-after"><i></i></span></a></div><p class="site-subtitle">stay hungry stay foolish</p></div><div class="site-nav-toggle"><button><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tag"></i><br>标签</a></li><li class="menu-item menu-item-photos"><a href="/photos/" rel="section"><i class="menu-item-icon fa fa-fw fa-book"></i><br>相册</a></li><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="menu-item-icon fa fa-fw fa-commenting"></i><br>留言</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br>关于</a></li><li class="menu-item menu-item-search"><a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i><br>搜索</a></li></ul><div class="site-search"><div class="popup search-popup local-search-popup"><div class="local-search-header clearfix"><span class="search-icon"><i class="fa fa-search"></i> </span><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span><div class="local-search-input-wrapper"><input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input"></div></div><div id="local-search-result"></div></div></div></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://118.25.106.223/2017/06/11/Shell问题总结/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="Luis Yang"><meta itemprop="description" content=""><meta itemprop="image" content="/images/avatar.jpg"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="run time"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">shell 问题总结</h1><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-11T19:33:12+08:00">2017-06-11 </time></span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span></span></div></header><div class="post-body" itemprop="articleBody"><script src="/assets/js/APlayer.min.js"></script><h4 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h4><p>　　由于自已从事<code>java</code>后端开发这块的工作，有时候会登录到远程<code>Linux</code>服务器查看日志，分析错误，统计数据等场景，会键入大量的命令。突发奇想，可以通过编写脚本（<code>Shell</code>）来实现工作简化。提到<code>Linux Shell</code>，自已曾经也系统化学习过，买过关于<code>Shell编程</code>的书籍。但是当自已要开始编写脚本的时候，才发现一些基础的知识都可能遗忘掉，比如声明变量、基础语法（<code>if-else</code>，<code>for</code>）、方法定义 （<code>function</code>）、自带Linux命令等一些基础的东西。只能通过百度一点点组装，完成最后脚本的编写，花费了大量的时间以及精力，不断地去重复搜索与记忆。也许自已不是一个运维工程师，不需要去尝试写这些东西。但是编写脚本，简化工作，节约时间，最后受益的人是自已，不是别人。<br>　　<br>　　 只有畏惧不敢尝试才是真正的失败！<br>　　<br>　　 本篇仅是对自已搜索知识的记录，方便下次查找！！！</p><h4 id="Shell接收用户输入"><a href="#Shell接收用户输入" class="headerlink" title="Shell接收用户输入"></a>Shell接收用户输入</h4><p>　　<a href="http://www.linuxidc.com/Linux/2015-08/122471.htm" target="_blank" rel="noopener">read命令读取用户输入</a><br>　　<a href="http://blog.csdn.net/zhangjikuan/article/details/51105166" target="_blank" rel="noopener">Shell脚本交互之：自动输入密码</a><br>　　<br>　　通过read命令<br></p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">示例：</span><br><span class="line"><span class="built_in">read</span> <span class="built_in">test</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$test</span></span><br></pre></td></tr></table></figure><p></p><h4 id="Shell中声明函数"><a href="#Shell中声明函数" class="headerlink" title="Shell中声明函数"></a>Shell中声明函数</h4><p>　　<a href="http://c.biancheng.net/cpp/view/7011.html" target="_blank" rel="noopener">Shell函数：Shell函数返回值、删除函数、在终端调用函数</a><br>　　<br>　　通过funcation name(){}方式声明函数，{}中放入需要执行的命令。通过name即可调用函数<br></p><figure class="highlight openscad"><table><tr><td class="code"><pre><span class="line">声明函数</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printEcho</span><span class="params">()</span></span></span><br><span class="line"><span class="function">&#123;</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"hello world！！！"</span></span><br><span class="line">&#125;</span><br><span class="line">调用函数</span><br><span class="line">printEcho</span><br></pre></td></tr></table></figure><p></p><h4 id="Shell中的if判断"><a href="#Shell中的if判断" class="headerlink" title="Shell中的if判断"></a>Shell中的if判断</h4><p>　　<a href="http://www.cnblogs.com/huai371720876/p/4561195.html" target="_blank" rel="noopener">Linux shell if判断语句</a><br>　　<a href="http://www.jb51.net/article/90454.htm" target="_blank" rel="noopener">对用户输入的判断的shell实现代码</a></p><p>几种方式：</p><ul><li><p>if</p><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">stdout=` <span class="keyword">ps</span> -ef|<span class="keyword">grep</span> hexo |<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">'&#123;print $2&#125;'</span> `</span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"$stdout"</span> ]</span><br><span class="line">then</span><br><span class="line">  <span class="keyword">echo</span> -n <span class="string">"有货"</span></span><br><span class="line">fi</span><br></pre></td></tr></table></figure></li><li><p>if-else</p><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">stdout=` <span class="keyword">ps</span> -ef|<span class="keyword">grep</span> hexo |<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">'&#123;print $2&#125;'</span> `</span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"$stdout"</span> ]</span><br><span class="line">then</span><br><span class="line">  <span class="keyword">echo</span> -n <span class="string">"有货"</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="keyword">echo</span> -n <span class="string">"没货"</span></span><br><span class="line">fi</span><br></pre></td></tr></table></figure></li><li><p>if-elif-else</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> [ -z <span class="variable">$num</span> ];<span class="keyword">then</span></span><br><span class="line">  <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">elif</span>  [ <span class="variable">$num</span> = 1 ];<span class="keyword">then</span></span><br><span class="line"> startServer</span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$num</span> = 2 ];<span class="keyword">then</span></span><br><span class="line"> stopServer</span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$num</span> = 3 ];<span class="keyword">then</span></span><br><span class="line"> getPID</span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$num</span> = 4 ];<span class="keyword">then</span></span><br><span class="line"> autoUpdate</span><br><span class="line"> startServer</span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$num</span> = 5 ];<span class="keyword">then</span></span><br><span class="line"> autoDeploy</span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$num</span> = 6 ];<span class="keyword">then</span></span><br><span class="line"> updateSou</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"> <span class="built_in">echo</span> <span class="string">"Input error !!!!!!"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></li><li><p>判断表达式<br><strong>关于文件属性的判断式</strong><br>　　-a 如果文件存在<br>　　-b 如果文件存在，且该文件是区域设备文件<br>　　-c 当file存在并且是字符设备文件时返回真<br>　　-d 当pathname存在并且是一个目录时返回真<br>　　-e 当pathname指定的文件或目录存在时返回真<br>　　-f 当file存在并且是普通文件时返回真<br>　　-g 当由pathname指定的文件或目录存在并且设置了SGID位时返回为真<br>　　-h 当file存在并且是符号链接文件时返回真，该选项在一些老系统上无效<br>　　-k 当由pathname指定的文件或目录存在并且设置了“sticky”位时返回真<br>　　-r 当由pathname指定的文件或目录存在并且可读时返回为真<br>　　-s 当file存在文件大小大于0时返回真<br>　　-t 文件描述符 如果文件描述符是开启的，且链接了某一个终端<br>　　-u 当由pathname指定的文件或目录存在并且设置了SUID位时返回真<br>　　-w 当由pathname指定的文件或目录存在并且可执行时返回真。一个目录为了它的内容被访问必然是可执行的。<br>　　-x 如果文件存在，且该文件有可执行的属性<br>　　-O 当由pathname指定的文件或目录存在并且被子当前进程的有效用户ID所指定的用户拥有时返回真。<br>　　-G 如果文件存在，且该文件为有效的群组 id 所拥有<br>　　-L 如果该文件存在，且该文件是符号链接文件<br>　　-S 如果该文件存在，且该文件是Socket文件<br>　　-N 如果该文件存在，且该文件自上次读取后曾修改过<br>　　文件1 –nt 文件2 如果文件1比文件2新，或者文件1存在，文件2不存在<br>　　文件1 –ot 文件2 如果文件1比文件2旧，或者文件1不存在，文件2存在<br>　　文件1 –ef 文件2 如果文件1和文件2 引用到相同的设备和 inode 编号<br><strong>关于字符串的条件判断式</strong><br>　　<br>　　<a href="http://www.cnblogs.com/TikyZheng/p/3352208.html" target="_blank" rel="noopener">linux if 命令判断条件总结</a><br>　　<br>　　-z 空串 (如果字符串长度为0)<br>　　-n 非空串 (如果字符串长度不为0)<br>　　字符串 如果字符串长度不为0<br>　　!= 如果两个字符串不相等<br>　　= 如果两个字符串相等<br>　　== 如果两个字符串相等<br>　　字符串 1 &lt; 字符串 2 如果字符串1小于字符串2<br>　　字符串 1 &gt; 字符串 2 如果字符串1大于字符串2<br><strong>关于算式的条件判断</strong><br>　　-eq 等于<br>　　-ne 不等于<br>　　-gt 大于<br>　　-lt 小于<br>　　-le 小于等于<br>　　-ge 大于等于<br><strong>关于 Bash 选项的条件判断</strong><br>　　-o set的选项名称 如果选项是开启的状态</p></li></ul><h4 id="Shell中的循环"><a href="#Shell中的循环" class="headerlink" title="Shell中的循环"></a>Shell中的循环</h4><p>　　<a href="http://www.linuxidc.com/Linux/2012-02/53030.htm" target="_blank" rel="noopener">Shell for&amp;while 循环详细总结</a></p><p>几种方式：　　</p><ul><li><p>for in循环</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..10&#125;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></li><li><p>for(?,?,?)循环</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>((i=1;i&lt;100;i++))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="keyword">if</span>((i%3==0))</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line">        <span class="built_in">continue</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></li><li><p>while循环</p><figure class="highlight gams"><table><tr><td class="code"><pre><span class="line"><span class="built-in">min</span>=<span class="number">1</span></span><br><span class="line"><span class="built-in">max</span>=<span class="number">100</span></span><br><span class="line"><span class="keyword">while</span> [ <span class="symbol">$</span><span class="built-in">min</span> -<span class="keyword">le</span> <span class="symbol">$</span><span class="built-in">max</span> ]</span><br><span class="line">do</span><br><span class="line">    echo <span class="symbol">$</span><span class="built-in">min</span></span><br><span class="line">    <span class="built-in">min</span>=`expr <span class="symbol">$</span><span class="built-in">min</span> + <span class="number">1</span>`</span><br><span class="line">done</span><br></pre></td></tr></table></figure></li></ul><h4 id="Linux判断命令是否有输出"><a href="#Linux判断命令是否有输出" class="headerlink" title="Linux判断命令是否有输出"></a>Linux判断命令是否有输出</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">第一种方式：</span><br><span class="line"><span class="meta">$</span><span class="bash"> stdout=`ls /asdfkasd`</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$stdout</span>"</span> ]</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">then</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"有货"</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">else</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"没货"</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="keyword">fi</span></span></span><br><span class="line">没货</span><br><span class="line"></span><br><span class="line">第二种方式：</span><br><span class="line"><span class="meta">$</span><span class="bash"> stdout=`ls /tmp`</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$stdout</span>"</span> ]; <span class="keyword">then</span> <span class="built_in">echo</span> <span class="string">"有货"</span>; <span class="keyword">else</span> <span class="built_in">echo</span> <span class="string">"没货"</span>; <span class="keyword">fi</span></span></span><br><span class="line">有货</span><br></pre></td></tr></table></figure><h4 id="Linux-Crontab内环境变量与Shell环境变量的关系"><a href="#Linux-Crontab内环境变量与Shell环境变量的关系" class="headerlink" title="Linux Crontab内环境变量与Shell环境变量的关系"></a>Linux Crontab内环境变量与Shell环境变量的关系</h4><p>　　 <a href="http://www.360doc.com/content/14/0418/13/3300331_370028474.shtml" target="_blank" rel="noopener">Linux Crontab内环境变量与Shell环境变量的关系及解决问题的办法</a><br>　　 <a href="http://blog.csdn.net/liuxu0703/article/details/53858406" target="_blank" rel="noopener">对一次 crontab 执行失败的调试</a><br>　　 <a href="http://blog.csdn.net/qustdjx/article/details/7830327" target="_blank" rel="noopener">cron 定时执行脚本 执行用户自定义脚本</a><br>　　 <a href="http://www.cnblogs.com/itech/archive/2011/02/09/1950226.html" target="_blank" rel="noopener">Linux的cron和crontab</a><br>　　<br>　　 在线Crontab表达式执行时间验证工具：<br>　　 <a href="http://www.atool.org/crontab.php" target="_blank" rel="noopener">crontab执行时间计算</a><br>　　 <a href="http://cron.qqe2.com/" target="_blank" rel="noopener">crontab在线生成器</a> 　　</p><p>　　crontab有一个坏毛病，就是它总是不会缺省的从<strong>用户profile文件中读取环境变量参数</strong>，经常导致在手工执行某个 脚本时是成功的，但是到crontab中试图让它定期执行时就是会出错。</p><p>　　crontab配置文件路径：<code>/etc/crontab</code><br>　　<br>　　编写crontab有两种方式：<br>　　1.通过文件的方式，编辑上述路径文件<br>　　2.通过contab命令的方式</p><figure class="highlight haml"><table><tr><td class="code"><pre><span class="line">Usage:</span><br><span class="line"> crontab [options] file</span><br><span class="line"> crontab [options]</span><br><span class="line"> crontab -n [hostname]</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line"> -<span class="ruby">u &lt;user&gt;  define user</span></span><br><span class="line"><span class="ruby"> -e         edit user<span class="string">'s crontab</span></span></span><br><span class="line"><span class="ruby"> -l         list user<span class="string">'s crontab</span></span></span><br><span class="line"><span class="ruby"> -r         delete user<span class="string">'s crontab</span></span></span><br><span class="line"><span class="ruby"> -i         prompt before deleting</span></span><br><span class="line"><span class="ruby"> -n &lt;host&gt;  set host <span class="keyword">in</span> cluster to run users<span class="string">' crontabs</span></span></span><br><span class="line"><span class="ruby"> -c         get host <span class="keyword">in</span> cluster to run users<span class="string">' crontabs</span></span></span><br><span class="line"><span class="ruby"> -s         selinux context</span></span><br><span class="line"><span class="ruby"> -x &lt;mask&gt;  enable debugging</span></span><br></pre></td></tr></table></figure><p>　　Example of job definition：</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> |  |  |  |  |</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *  *  *  *  * user-name <span class="built_in">command</span> to be executed</span></span><br></pre></td></tr></table></figure><p>　　<br>　　解决办法：<br>　　1. PATH 后面加入缺少目录，将crontab表达式追加到最后一行<br>　　表达式格式：<code>30 23 * * * root &quot;sh /opt/blog/hexo-deploy.sh &gt;&gt; /tmp/test.txt&quot;</code><br>　　2. 在Shell脚本缺省的#!/bin/sh开头换行后的第一行加上<code>. /etc/profile</code></p><h4 id="CentOS-7-下重启服务"><a href="#CentOS-7-下重启服务" class="headerlink" title="CentOS 7 下重启服务"></a>CentOS 7 下重启服务</h4><p>　　　<a href="http://www.linuxdiyf.com/linux/2363.html" target="_blank" rel="noopener">RHEL/CentOS 7中启动/停止/重启服务</a><br>　　　<br>　　　在CentOS 7之前，比如6的时候，是通过 <code>service name [start/stop/restart/status]</code>　的方式启动或停止服务。<br>　　　CentOS7好像是在6之后的最大改版，在某些命令上会存在差异，比如服务的启动（7采用<code>systemctl</code>）、查看ip（<code>ip addr</code>）等<br>　　　<br>　　　下列演示对crontab服务的操作：<br></p><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">　　　systemctl status crond<span class="selector-class">.service</span>  #查看服务的状态</span><br><span class="line">　　　systemctl stop  crond<span class="selector-class">.service</span>  #停止服务</span><br><span class="line">　　　systemctl start crond<span class="selector-class">.service</span>  #启动服务</span><br><span class="line">　　　systemctl restart crond<span class="selector-class">.service</span> #重启服务</span><br></pre></td></tr></table></figure><p></p><h4 id="Linux-date-指定时间格式"><a href="#Linux-date-指定时间格式" class="headerlink" title="Linux date 指定时间格式"></a>Linux date 指定时间格式</h4><p>　　<a href="http://www.jb51.net/LINUXjishu/117785.html" target="_blank" rel="noopener">linux中通过date命令获取昨天或明天时间的方法</a><br>　　<br>　　通过 <code>date --help</code>命令可以查看帮助文档<br>　　<br>　　date +”%F”　　#输出格式 2017-06-10 yyyy-MM-dd<br>　　date +”%F %H:%M:%S” #输出格式 2017-06-10 18:55:38 yyyy-MM-dd HH:mm:ss 　　</p><h4 id="Linux-设置环境变量"><a href="#Linux-设置环境变量" class="headerlink" title="Linux 设置环境变量"></a>Linux 设置环境变量</h4><p>　　<a href="http://jingyan.baidu.com/article/ea24bc399a73bcda62b33104.html" target="_blank" rel="noopener">Linux环境下如何修改环境变量</a><br>　　<br>　　通过export命令的方式</p><figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">export: usage: <span class="builtin-name">export</span> [-fn] [name[=value] <span class="built_in">..</span>.] <span class="keyword">or</span> <span class="builtin-name">export</span> -p</span><br></pre></td></tr></table></figure><p>　　查看环境变量配置 ： <code>export -p</code><br>　　<br>　　一般不通过命令的方式，因为服务器重启或者关机等异常情况，之前配置的环境变量可能会失效，一般都配置在启动文件中（<code>/etc/profile</code>）中，通过<code>source</code>命令让环境变量生效。</p><h4 id="Shell中嵌套执行expect命令"><a href="#Shell中嵌套执行expect命令" class="headerlink" title="Shell中嵌套执行expect命令"></a>Shell中嵌套执行expect命令</h4><p>　　<a href="http://www.jb51.net/article/58777.htm" target="_blank" rel="noopener">shell中嵌套执行expect命令实例</a><br>　　<a href="https://www.centos.bz/2013/07/expect-spawn-linux-expect-usage/" target="_blank" rel="noopener">expect spawn、linux expect 用法小记</a><br>　　<br>　　1.先安装<code>expect</code><br></p><figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line">　　yum <span class="keyword">install</span> -y expect</span><br></pre></td></tr></table></figure><p></p><p>　　2. 脚本示例</p><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">/usr/bin/expect &lt;&lt;-EOF</span><br><span class="line">set <span class="keyword">time</span> <span class="number">30</span></span><br><span class="line">spawn ssh -p1833<span class="number">0</span> root@192.<span class="number">168.10</span>.<span class="number">22</span></span><br><span class="line">expect &#123;</span><br><span class="line"><span class="string">"*yes/no"</span> &#123; <span class="keyword">send</span> <span class="string">"yes\r"</span>; exp_continue &#125;</span><br><span class="line"><span class="string">"*password:"</span> &#123; <span class="keyword">send</span> <span class="string">"$passwd\r"</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line">expect <span class="string">"*#"</span></span><br><span class="line"><span class="keyword">send</span> <span class="string">"cd /home/trunk\r"</span></span><br><span class="line">expect <span class="string">"*#"</span></span><br><span class="line"><span class="keyword">send</span> <span class="string">"svn up\r"</span></span><br><span class="line">expect <span class="string">"*#"</span></span><br><span class="line"><span class="keyword">send</span> <span class="string">"exit\r"</span></span><br><span class="line">interact</span><br><span class="line">expect <span class="keyword">eof</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure><h4 id="Shell-加解密"><a href="#Shell-加解密" class="headerlink" title="Shell 加解密"></a>Shell 加解密</h4><p>　　<a href="http://blog.csdn.net/loomz/article/details/47001691" target="_blank" rel="noopener">shell几种字符串加密解密的方法</a></p><p>　　<strong>第一种：〔 Python 与 Bash Shell 的结合 〕</strong><br>　　这个命令会让你输入一个字符串，然后会再输出一串加密了的数字。</p><p>　　加密代码[照直输入]:<br>　　python -c ‘print reduce(lambda a,b: a*256+ord(b), raw_input(“string: “), 0)’</p><p>　　解密代码[数字后+P]：<br>　　dc -e 输出的数字P</p><p>　　<strong>第二种：〔 应该是纯 Bash Shell，含 VIM 的 xxd 〕</strong><br>　　用 <a href="mailto:gtalk@gmail.com" target="_blank" rel="noopener">gtalk@gmail.com</a> 作为明文，加密分两步，当然了，也是可以一步过的，呆会说～</p><p>　　加密代码：<br>　　1、echo “<a href="mailto:gtalk@gmail.com" target="_blank" rel="noopener">gtalk@gmail.com</a>“ |xxd -ps -u<br>　　得到：6774616C6B40676D61696C2E636F6D0A<br>　　2、echo “ibase=16; 6774616C6B40676D61696C2E636F6D0A” |bc<br>　　得到：137514765985002236391382606438443478282</p><p>　　一步加密代码：<br>　　echo “ibase=16; $(echo “<a href="mailto:gtalk@gmail.com" target="_blank" rel="noopener">gtalk@gmail.com</a>“ |xxd -ps -u)” |bc<br>　　得到：137514765985002236391382606438443478282</p><p>　　解密代码：<br>　　3、dc -e 137514765985002236391382606438443478282P<br>　　得到：<a href="mailto:gtalk@gmail.com" target="_blank" rel="noopener">gtalk@gmail.com</a></p><p>　　<strong>第三种：〔 Base64 编码，这个很好很强大，适合写加密脚本 〕</strong><br>　　同样用 <a href="mailto:gtalk@gmail.com" target="_blank" rel="noopener">gtalk@gmail.com</a> 作为明文，来看代码：</p><p>　　加密代码：<br>　　echo “<a href="mailto:gtalk@gmail.com" target="_blank" rel="noopener">gtalk@gmail.com</a>“ |base64 -i<br>　　得到：Z3RhbGtAZ21haWwuY29tCg==</p><p>　　解密代码：<br>　　echo “Z3RhbGtAZ21haWwuY29tCg==” |base64 -d<br>　　得到：<a href="mailto:gtalk@gmail.com" target="_blank" rel="noopener">gtalk@gmail.com</a> 　　</p><h4 id="Shell-kill-杀进程"><a href="#Shell-kill-杀进程" class="headerlink" title="Shell kill 杀进程"></a>Shell kill 杀进程</h4><p>　　<a href="http://harveyzeng.iteye.com/blog/1452258" target="_blank" rel="noopener">linux kill终止进程</a><br>　　<br>　　先通过<code>ps -ef | grep 进程名</code>的方式获得pid。在通过<code>kill -9 pid</code> 的方式杀死进程，也可以通过 <code>killall 进程名</code>的方式。</p><p>　　</p><h4 id="Shell编写异常收集"><a href="#Shell编写异常收集" class="headerlink" title="Shell编写异常收集"></a>Shell编写异常收集</h4><p>　　Q：<strong>warning: here-document at line 17 delimited by end-of-file (wanted EOF)</strong><br>　　A：末尾的EOF后面带有空格，EOF前后都不应有空格或其他符号<br>　　<br>　　Q：<strong>linux bash中too many arguments问题的解决方法</strong><br>　　A： <code>if [ -z &quot; lsof -i:22 &quot; ]</code> //这种写法会报too many arguments,改成<code>[[ -z &quot; lsof -i:22 &quot; ]]</code></p><p>　　 　　 　　</p></div><div><div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;"><div>坚持原创技术分享，您的支持将鼓励我继续创作！</div><button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}"><span>打赏</span></button><div id="QR" style="display: none;"><div id="wechat" style="display: inline-block"><img id="wechat_qr" src="/images/wechatpay.jpg" alt="Luis Yang 微信支付"><p>微信支付</p></div><div id="alipay" style="display: inline-block"><img id="alipay_qr" src="/images/alipay.jpg" alt="Luis Yang 支付宝"><p>支付宝</p></div></div></div></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong> Luis Yang</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://118.25.106.223/2017/06/11/Shell问题总结/" title="shell 问题总结">http://118.25.106.223/2017/06/11/Shell问题总结/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"><a href="/tags/shell/" rel="tag"># shell</a> <a href="/tags/linux/" rel="tag"># linux</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/2017/01/01/骑行之旅/" rel="next" title="骑行之旅"><i class="fa fa-chevron-left"></i> 骑行之旅</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"><a href="/2017/06/11/hexo自动化/" rel="prev" title="hexo auto shell">hexo auto shell <i class="fa fa-chevron-right"></i></a></div></div></footer></div></article><div class="post-spread"></div></div></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Luis Yang"><p class="site-author-name" itemprop="name">Luis Yang</p><p class="site-description motion-element" itemprop="description">stay hungry stay foolish</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">35</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/index.html"><span class="site-state-item-count">14</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/index.html"><span class="site-state-item-count">25</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/nightalexly" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="https://www.zhihu.com/people/luis-59-9/activities" target="_blank" title="ZhiHu"><i class="fa fa-fw fa-question-circle-o"></i>ZhiHu</a> </span><span class="links-of-author-item"><a href="http://music.163.com/#/user/home?id=262759259" target="_blank" title="WangYi"><i class="fa fa-fw fa-pinterest-square"></i>WangYi</a> </span><span class="links-of-author-item"><a title="小high一下~" style="underline: none;color:red" rel="alternate" class="mw-harlem_shake_slow wobble shake" href="javascript:shake()"><i class="fa fa-music"></i> &nbsp;&nbsp;High</a></span></div><div class="links-of-blogroll motion-element links-of-blogroll-inline"><div class="links-of-blogroll-title"><i class="fa fa-fw fa-link"></i> Links</div><ul class="links-of-blogroll-list"><li class="links-of-blogroll-item"><a href="https://notes.rtime.xin/2017/06/14/Site%20diary/" title="Site diary" target="_blank">Site diary</a></li><li class="links-of-blogroll-item"><a href="https://notes.rtime.xin/2017/06/13/%E5%BE%85%E5%A4%84%E7%90%86/" title="Handling" target="_blank">Handling</a></li><li class="links-of-blogroll-item"><a href="https://notes.rtime.xin/lables/" title="Lables" target="_blank">Lables</a></li><li class="links-of-blogroll-item"><a href="https://notes.rtime.xin/2017/01/01/%E9%AA%91%E8%A1%8C%E4%B9%8B%E6%97%85/" title="Cycling" target="_blank">Cycling</a></li><li class="links-of-blogroll-item"><a href="https://notes.rtime.xin/2017/06/13/%E5%90%8D%E8%A8%80%E8%AD%A6%E5%8F%A5/" title="Motto" target="_blank">Motto</a></li></ul></div></div></section><!--noindex--><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#反思"><span class="nav-number">1.</span> <span class="nav-text">反思</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell接收用户输入"><span class="nav-number">2.</span> <span class="nav-text">Shell接收用户输入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell中声明函数"><span class="nav-number">3.</span> <span class="nav-text">Shell中声明函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell中的if判断"><span class="nav-number">4.</span> <span class="nav-text">Shell中的if判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell中的循环"><span class="nav-number">5.</span> <span class="nav-text">Shell中的循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux判断命令是否有输出"><span class="nav-number">6.</span> <span class="nav-text">Linux判断命令是否有输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux-Crontab内环境变量与Shell环境变量的关系"><span class="nav-number">7.</span> <span class="nav-text">Linux Crontab内环境变量与Shell环境变量的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CentOS-7-下重启服务"><span class="nav-number">8.</span> <span class="nav-text">CentOS 7 下重启服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux-date-指定时间格式"><span class="nav-number">9.</span> <span class="nav-text">Linux date 指定时间格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux-设置环境变量"><span class="nav-number">10.</span> <span class="nav-text">Linux 设置环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell中嵌套执行expect命令"><span class="nav-number">11.</span> <span class="nav-text">Shell中嵌套执行expect命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell-加解密"><span class="nav-number">12.</span> <span class="nav-text">Shell 加解密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell-kill-杀进程"><span class="nav-number">13.</span> <span class="nav-text">Shell kill 杀进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell编写异常收集"><span class="nav-number">14.</span> <span class="nav-text">Shell编写异常收集</span></a></li></ol></div></div></section><!--/noindex--></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2018</span> <span class="with-love"><i class="fa fa-user"></i> </span><span class="author" itemprop="copyrightHolder">Luis Yang</span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span></div></div><script type="text/javascript">if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }</script><script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/ma5gallery.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/html5.js?v=5.1.4"></script><script type="text/javascript">$(document).ready(function(){$(".gallery-item").ma5gallery({preload:true,fullscreen:false})});</script><script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><script type="text/javascript">// Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });</script></body></html>
